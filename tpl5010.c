@@ -36,9 +36,11 @@
 #include "tpl5010.h"
 
 #include "driver/gpio.h"
+#include "esp_timer.h"
 #include "esp_log.h"
 
 /* Private macros ------------------------------------------------------------*/
+#define NOP() asm volatile ("nop")
 
 /* External variables --------------------------------------------------------*/
 
@@ -57,13 +59,24 @@ static const char *TAG = "tpl5010";
  *
  * @return ESP_OK on success
  */
+static void delay_us(uint32_t period_us, void * intf_ptr)
+
+/**
+ * @brief Function to write a byte
+ *
+ * @param me        : Pointer to a structure instance of at24cs0x_t
+ * @param data_addr : Address to write data
+ * @param data      : Data to write
+ *
+ * @return ESP_OK on success
+ */
 static void IRAM_ATTR gpio_isr_handler(void *arg);
 
 /* Exported functions definitions --------------------------------------------*/
 /**
  * @brief Function to write a byte
  */
-esp_err_t tpl5010_init(tpl5010_t *const me, gpio_num_t wake_gpio, gpio_num_t done_gpio) {
+esp_err_t tpl5010_init(tpl5010_t *const me, int wake_gpio, int done_gpio) {
 	esp_err_t ret = ESP_OK;
 
 	/* Configure wake GPIO */
@@ -153,6 +166,27 @@ esp_err_t tpl5010_done(tpl5010_t *const me) {
 }
 
 /* Private function definitions ----------------------------------------------*/
+/**
+ * @brief Function to write a byte
+ */
+static void delay_us(uint32_t period_us) {
+	uint64_t m = (uint64_t)esp_timer_get_time();
+
+  if (period_us) {
+  	uint64_t e = (m + period_us);
+
+  	if (m > e) { /* overflow */
+  		while ((uint64_t)esp_timer_get_time() > e) {
+  			NOP();
+  		}
+  	}
+
+  	while ((uint64_t)esp_timer_get_time() < e) {
+  		NOP();
+  	}
+  }
+}
+
 /**
  * @brief Function to write a byte
  */
