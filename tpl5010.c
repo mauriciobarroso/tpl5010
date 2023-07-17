@@ -59,7 +59,7 @@ static const char *TAG = "tpl5010";
  *
  * @return ESP_OK on success
  */
-static void delay_us(uint32_t period_us)
+static void delay_us(uint32_t period_us);
 
 /**
  * @brief Function to write a byte

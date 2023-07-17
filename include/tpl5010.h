@@ -42,10 +42,10 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
+#include <string.h>
 
-#include "esp_err.h"
+#include "freertos/FreeRTOS.h"
+#include "driver/gpio.h"
 
 /* Exported Macros -----------------------------------------------------------*/
 
