@@ -59,7 +59,7 @@ static const char *TAG = "tpl5010";
  *
  * @return ESP_OK on success
  */
-static void delay_us(uint32_t period_us, void * intf_ptr)
+static void delay_us(uint32_t period_us)
 
 /**
  * @brief Function to write a byte
@@ -152,7 +152,7 @@ esp_err_t tpl5010_done(tpl5010_t *const me) {
 		return ret;
 	}
 
-	ets_delay_us(100);
+	delay_us(100);
 
 	ret = gpio_set_level(me->done_gpio, false);
 

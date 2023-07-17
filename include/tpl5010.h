@@ -67,7 +67,7 @@ typedef struct {
  *
  * @return ESP_OK on success
  */
-esp_err_t tpl5010_init(tpl5010_t *const me, gpio_num_t wake_gpio, gpio_num_t done_gpio);
+esp_err_t tpl5010_init(tpl5010_t *const me, int wake_gpio, int done_gpio);
 
 /**
  * @brief Function to write a byte
