@@ -87,7 +87,7 @@ esp_err_t tpl5010_init(tpl5010_t *const me, int wake_gpio, int done_gpio) {
 	gpio_conf.mode = GPIO_MODE_INPUT;
 	gpio_conf.pin_bit_mask = 1ULL << me->wake_gpio;
 	gpio_conf.pull_down_en = GPIO_PULLDOWN_DISABLE;
-	gpio_conf.pull_up_en = GPIO_PULLUP_DISABLE;
+	gpio_conf.pull_up_en = GPIO_PULLUP_ENABLE;
 
 	ret = gpio_config(&gpio_conf);
 
