@@ -101,10 +101,12 @@ typedef struct {
  * @param done_gpio[in] : MCU GPIO pin number connected to the TPL5010 DONE
  * input; configure this pin as an output to issue the low-to-high DONE
  * transition that resets the watchdog counter
+ * @param delay_ms[in]  : Pointer to function to perform a ms delay
  *
  * @return 0 on success, -1 on failure
  */
-int tpl5010_init(tpl5010_t *const me, int wake_gpio, int done_gpio);
+int tpl5010_init(tpl5010_t *const me, int wake_gpio, int done_gpio,
+                 tpl5010_delay_t delay_ms);
 
 /**
  * @brief Register a user callback to be invoked on each WAKE pulse.

@@ -60,7 +60,8 @@ static int set_done_level(int done_gpio, bool level);
 /**
  * @brief Initialize the TPL5010 driver instance.
  */
-int tpl5010_init(tpl5010_t *const me, int wake_gpio, int done_gpio) {
+int tpl5010_init(tpl5010_t *const me, int wake_gpio, int done_gpio,
+                 tpl5010_delay_t delay_ms) {
   int ret = 0;
 
   /* Configure wake GPIO */
