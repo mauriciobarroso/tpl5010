@@ -103,6 +103,9 @@ int tpl5010_init(tpl5010_t *const me, int wake_gpio, int done_gpio,
   /* todo: write for STM32 devices */
 #endif /* ESP32_TARGET */
 
+  /* Assign delay ms callback */
+  me->delay_ms = delay_ms;
+
   /* Install GPIO ISR service */
   ret = gpio_install_isr_service(0);
 
