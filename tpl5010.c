@@ -106,14 +106,6 @@ int tpl5010_init(tpl5010_t *const me, int wake_gpio, int done_gpio,
   /* Assign delay ms callback */
   me->delay_ms = delay_ms;
 
-  /* Install GPIO ISR service */
-  ret = gpio_install_isr_service(0);
-
-  if (ret != ESP_OK && ret != ESP_ERR_INVALID_STATE) {
-    ESP_LOGE(TAG, "Failed to install wake GPIO ISR service");
-    return ret;
-  }
-
   /* Send done signal */
   tpl5010_done(me);
 
@@ -139,6 +131,15 @@ int tpl5010_register_callback(tpl5010_t *const me, tpl5010_cb_t cb_fn,
 
 /* Add GPIO ISR handler */
 #ifdef ESP32_TARGET
+  /* Install GPIO ISR service */
+  ret = gpio_install_isr_service(0);
+
+  if (ret != ESP_OK && ret != ESP_ERR_INVALID_STATE) {
+    ESP_LOGE(TAG, "Failed to install wake GPIO ISR service");
+    return ret;
+  }
+
+  /* Add ISR handler and user context */
   ret = gpio_isr_handler_add(me->wake_gpio, me->cb_fn, me->cb_arg);
 
   if (ret != ESP_OK) {
